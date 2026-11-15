@@ -2,6 +2,8 @@ package br.edu.ifam.sementeira.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "sementes")
 public class Semente {
@@ -10,7 +12,6 @@ public class Semente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Campos Antigos do DTO do App
     private String nome;
     private String descricao;
     private String especie;
@@ -19,9 +20,14 @@ public class Semente {
     private String cuidado;
     private Float preco;
 
-    // Novos campos adicionados (Banco v7 do App)
     @Column(name = "nome_cientifico_id")
-    private Long nomeCientificoId; // Mapeado diretamente como ID para facilitar o tráfego do JSON
+    private Long nomeCientificoId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "nome_cientifico_id", insertable = false, updatable = false)
+    private NomeCientifico nomeCientifico;
+
+    public NomeCientifico getNomeCientifico() { return nomeCientifico; }
 
     private String epocaInicio;
     private String epocaFim;
@@ -31,7 +37,23 @@ public class Semente {
     private Double longitude;
     private String caminhoImagem;
 
+    @Column(unique = true, length = 36)
+    private String uuid;
+
+    private LocalDateTime atualizadoEm;
+
+    private LocalDateTime sincronizadoEm;
+
     public Semente() {}
+
+    public String getUuid() { return uuid; }
+    public void setUuid(String uuid) { this.uuid = uuid; }
+
+    public LocalDateTime getAtualizadoEm() { return atualizadoEm; }
+    public void setAtualizadoEm(LocalDateTime atualizadoEm) { this.atualizadoEm = atualizadoEm; }
+
+    public LocalDateTime getSincronizadoEm() { return sincronizadoEm; }
+    public void setSincronizadoEm(LocalDateTime sincronizadoEm) { this.sincronizadoEm = sincronizadoEm; }
 
     public Long getId() {
         return id;

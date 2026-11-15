@@ -10,7 +10,7 @@ public class NomeCientifico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome; // O nome científico real
+    private String nome;
     private String nomePopular;
 
     public Long getId() {
